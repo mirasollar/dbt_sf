@@ -5,11 +5,13 @@ with source as (
     select * from {{ source('dbt_test', 'client') }}
 ),
 
-renamed as (
+cleaned as (
     select
-        *
-        -- Zde můžeš přidat transformace, přejmenování sloupců, atd.
+        id,
+        trim(name) as name,
+        trim(email) as email
+        -- Přidej další sloupce, které tabulka CLIENT obsahuje
     from source
 )
 
-select * from renamed
+select * from cleaned

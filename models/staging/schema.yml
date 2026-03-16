@@ -2,10 +2,30 @@ version: 2
 
 models:
   - name: stg_client
-    description: "Staging model pro klientská data"
+    description: "Staging model pro klientská data s trimovanými textovými poli"
     columns:
       - name: id
         description: "Primární klíč klienta"
         tests:
           - unique
+          - not_null
+      - name: name
+        description: "Jméno klienta (trimované)"
+      - name: email
+        description: "Email klienta (trimovaný)"
+  
+  - name: stg_revenue
+    description: "Staging model pro revenue data s typovými konverzemi"
+    columns:
+      - name: client_id
+        description: "ID klienta"
+        tests:
+          - not_null
+      - name: revenue_date
+        description: "Datum transakce"
+        tests:
+          - not_null
+      - name: revenue_amount
+        description: "Výše příjmu"
+        tests:
           - not_null

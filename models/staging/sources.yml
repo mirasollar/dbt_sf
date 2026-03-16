@@ -14,3 +14,13 @@ sources:
             tests:
               - unique
               - not_null
+      
+      - name: revenue
+        description: "Tabulka příjmů/výnosů"
+        columns:
+          - name: id
+            description: "ID klienta"
+          - name: date
+            description: "Datum transakce"
+          - name: revenue
+            description: "Výše příjmu"

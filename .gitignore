@@ -3,6 +3,7 @@ target/
 dbt_packages/
 logs/
 dbt_modules/
+.user.yml
 
 # Credentials - NIKDY NECOMMITOVAT!
 profiles.yml
