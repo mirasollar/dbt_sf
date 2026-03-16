@@ -1,0 +1,11 @@
+version: 2
+
+models:
+  - name: stg_client
+    description: "Staging model pro klientská data"
+    columns:
+      - name: id
+        description: "Primární klíč klienta"
+        tests:
+          - unique
+          - not_null

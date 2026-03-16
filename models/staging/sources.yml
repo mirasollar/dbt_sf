@@ -1,0 +1,16 @@
+version: 2
+
+sources:
+  - name: dbt_test
+    description: "Zdrojové tabulky z DBT_TEST schema"
+    database: CRM_RAW
+    schema: DBT_TEST
+    tables:
+      - name: client
+        description: "Tabulka klientů"
+        columns:
+          - name: id
+            description: "Primární klíč"
+            tests:
+              - unique
+              - not_null
