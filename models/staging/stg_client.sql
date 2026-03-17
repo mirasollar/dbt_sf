@@ -1,4 +1,5 @@
 -- Staging model pro CLIENT tabulku
+-- Materialized as table - připraveno pro incremental loading
 -- Trimování všech stringových polí
 
 with source as (

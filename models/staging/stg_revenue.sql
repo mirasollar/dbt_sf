@@ -1,5 +1,6 @@
 -- Staging model pro REVENUE tabulku
--- Trimování stringových polí a type casting
+-- Materialized as table - připraveno pro incremental loading
+-- Trimování stringových polí a filtrování NULL hodnot
 
 with source as (
     select * from {{ source('crm_raw', 'revenue') }}

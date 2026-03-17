@@ -19,9 +19,9 @@ require-dbt-version: [">=1.11.0", "<2.0.0"]
 
 models:
   dbt_sf:
-    +materialized: view
+    +materialized: table
     staging:
-      +materialized: view
+      +materialized: table
       +schema: crm_staging
     marts:
       +materialized: table
