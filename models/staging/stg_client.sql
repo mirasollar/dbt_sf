@@ -1,16 +1,15 @@
 -- Staging model pro CLIENT tabulku
--- Materialized as view in staging schema
+-- Trimování všech stringových polí
 
 with source as (
-    select * from {{ source('dbt_test', 'client') }}
+    select * from {{ source('crm_raw', 'client') }}
 ),
 
 cleaned as (
     select
         id,
-        trim(name) as name,
-        trim(email) as email
-        -- Přidej další sloupce, které tabulka CLIENT obsahuje
+        trim(name) as name
+        -- Přidej další stringové sloupce z tabulky CLIENT, pokud existují
     from source
 )
 

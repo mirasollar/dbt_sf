@@ -42,16 +42,23 @@ jobs:
                 password: ${{ secrets.SNOWFLAKE_PASSWORD }}
                 role: ${{ secrets.SNOWFLAKE_ROLE }}
                 warehouse: ${{ secrets.SNOWFLAKE_WAREHOUSE }}
-                database: ${{ secrets.SNOWFLAKE_DATABASE }}
-                schema: ${{ secrets.SNOWFLAKE_SCHEMA }}
-                threads: 4
+                database: CRM_DATA
+                schema: CRM_STAGING
+                threads: 8
+                query_tag: dbt_prod
           EOF
 
       - name: Install dbt packages
         run: dbt deps
 
+      - name: Run dbt models
+        run: dbt run --target prod
+        
+      - name: Run dbt tests
+        run: dbt test --target prod
+        
       - name: Generate dbt docs
-        run: dbt docs generate
+        run: dbt docs generate --target prod
 
       - name: Setup Pages
         uses: actions/configure-pages@v4

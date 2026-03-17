@@ -1,15 +1,16 @@
 -- Staging model pro REVENUE tabulku
--- Materialized as view in staging schema
+-- Trimování stringových polí a type casting
 
 with source as (
-    select * from {{ source('dbt_test', 'revenue') }}
+    select * from {{ source('crm_raw', 'revenue') }}
 ),
 
 cleaned as (
     select
-        id::INTEGER as client_id,
-        date::DATE as revenue_date,
-        revenue::DECIMAL(10,2) as revenue_amount
+        id,
+        date,
+        revenue
+        -- Pokud jsou stringové sloupce, přidej trim()
     from source
     where revenue is not null
       and date is not null

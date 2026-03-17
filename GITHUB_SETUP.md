@@ -16,8 +16,10 @@ Přidej následující secrets (hodnoty zkopíruj z tvého `profiles.yml`):
 | `SNOWFLAKE_PASSWORD` | `***` | Tvoje Snowflake heslo |
 | `SNOWFLAKE_ROLE` | `SYSADMIN` | Snowflake role |
 | `SNOWFLAKE_WAREHOUSE` | `COMPUTE_WH` | Warehouse name |
-| `SNOWFLAKE_DATABASE` | `CRM_RAW` | Database name |
-| `SNOWFLAKE_SCHEMA` | `DBT_PROD` | Schema pro produkci |
+
+**Poznámka:** Database a Schema jsou pevně nastavené v workflow:
+- Database: `CRM_DATA`
+- Schema: `CRM_STAGING` (dbt automaticky vytvoří i `CRM_MART`)
 
 ## Krok 2: Aktivuj GitHub Pages
 

@@ -1,5 +1,5 @@
 -- Faktová tabulka s měsíční agregací revenue
--- Materialized as table in marts schema
+-- Materialized as table in CRM_MART schema
 
 {{ config(
     materialized='table',
@@ -12,14 +12,14 @@ with revenue_data as (
 
 monthly_aggregation as (
     select
-        client_id as id,
-        date_trunc('month', revenue_date) as month,
-        sum(revenue_amount) as total_revenue,
+        id,
+        date_trunc('month', date) as month,
+        sum(revenue) as total_revenue,
         count(*) as transaction_count
     from revenue_data
     group by 
-        client_id,
-        date_trunc('month', revenue_date)
+        id,
+        date_trunc('month', date)
 )
 
 select * from monthly_aggregation

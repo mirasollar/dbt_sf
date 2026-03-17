@@ -1,5 +1,5 @@
 -- Dimenzní tabulka pro klienty
--- Materialized as table in marts schema
+-- Materialized as table in CRM_MART schema
 
 {{ config(
     materialized='table',
@@ -12,8 +12,9 @@ with clients as (
 
 final as (
     select
-        *
-        -- Přidej zde business logiku, agregace, joiny, atd.
+        id,
+        name
+        -- Přidej další sloupce podle potřeby
     from clients
 )
 

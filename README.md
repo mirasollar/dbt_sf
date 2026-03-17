@@ -1,22 +1,34 @@
 # dbt_sf - Snowflake dbt Project
 
-Tento projekt obsahuje dbt transformace pro Snowflake účet SA79270.
+Tento projekt obsahuje dbt transformace pro Snowflake databázi CRM_DATA.
+
+## Snowflake Struktura
+
+### Databáze: CRM_DATA
+
+**Zdrojové schema (CRM_RAW):**
+- `CLIENT` - Zdrojová tabulka klientů
+- `REVENUE` - Zdrojová tabulka příjmů
+
+**Staging schema (CRM_STAGING):**
+- `stg_client` - Klienti s trimovanými stringy
+- `stg_revenue` - Revenue s filtrováním NULL hodnot
+
+**Marts schema (CRM_MART):**
+- `dim_client` - Dimenzní tabulka klientů
+- `fct_monthly_revenue` - Měsíční agregace revenue
 
 ## Setup
 
 ### 1. Nainstaluj dbt
 
 ```bash
-pip install dbt-core dbt-snowflake
+pip install -r requirements.txt
 ```
 
 ### 2. Nakonfiguruj credentials
 
-Uprav soubor `profiles.yml` v tomto projektu a doplň své Snowflake credentials:
-- `user`: tvoje Snowflake uživatelské jméno
-- `password`: tvoje Snowflake heslo
-- `role`: tvoje role (např. ACCOUNTADMIN, SYSADMIN)
-- `warehouse`: název warehouse
+Soubor `profiles.yml` v tomto projektu je už připravený. Heslo je v souboru.
 
 **DŮLEŽITÉ:** Soubor `profiles.yml` je v `.gitignore`, takže se nikdy necommituje na GitHub!
 
@@ -29,38 +41,50 @@ dbt debug
 ### 4. Spuštění modelů
 
 ```bash
-# Spustí všechny modely
+# Nainstaluj dbt packages
+dbt deps
+
+# DEV prostředí - vytvoří tabulky v DEV_STAGING a DEV_MART
 dbt run
 
-# Spustí testy
+# PROD prostředí - vytvoří tabulky v CRM_STAGING a CRM_MART
+dbt run --target prod
+
+# Spusť testy
 dbt test
 
-# Vygeneruje dokumentaci
+# Vygeneruj dokumentaci
 dbt docs generate
 dbt docs serve
 ```
 
-## Struktura projektu
-
-```
-├── models/
-│   ├── staging/     # Staging modely (views)
-│   └── marts/       # Finální tabulky
-├── tests/           # Data testy
-├── macros/          # Reusable SQL makra
-├── seeds/           # CSV soubory k načtení
-└── snapshots/       # SCD Type 2 snapshots
-```
-
 ## Prostředí
 
-- **dev**: Development prostředí (schema: DBT_TEST)
-- **prod**: Production prostředí (schema: DBT_PROD)
+### DEV (výchozí)
+- **Database:** CRM_DATA
+- **Schema:** DEV_STAGING (staging modely), DEV_MART (marts modely)
+- **Použití:** Lokální development a testování
 
-Změna prostředí:
-```bash
-dbt run --target prod
-```
+### PROD
+- **Database:** CRM_DATA
+- **Schema:** CRM_STAGING (staging modely), CRM_MART (marts modely)
+- **Použití:** Produkční data, spouští se automaticky při push do main
+
+## Automatizace (GitHub Actions)
+
+Při každém push do `main` branch se automaticky:
+1. Spustí `dbt run --target prod` (vytvoří/aktualizuje tabulky v PROD)
+2. Spustí `dbt test --target prod` (zkontroluje data quality)
+3. Vygeneruje dokumentaci a nahraje ji na GitHub Pages
+
+**Dokumentace dostupná na:** https://mirasollar.github.io/dbt_sf/
+
+## Pracovní workflow
+
+1. **Lokální development:** Proveď změny v modelech, spusť `dbt run` (jde do DEV)
+2. **Testování:** Zkontroluj výsledky v DEV_STAGING a DEV_MART
+3. **Commit & Push:** Nahraj změny do main branch
+4. **Automatické nasazení:** GitHub Actions spustí modely do PROD (CRM_STAGING a CRM_MART)
 
 ## Více informací
 

@@ -1,0 +1,29 @@
+version: 2
+
+models:
+  - name: dim_client
+    description: "Dimenzní tabulka klientů v CRM_MART"
+    columns:
+      - name: id
+        description: "Primární klíč klienta"
+        tests:
+          - unique
+          - not_null
+      - name: name
+        description: "Jméno klienta"
+  
+  - name: fct_monthly_revenue
+    description: "Faktová tabulka s měsíční agregací revenue v CRM_MART"
+    columns:
+      - name: id
+        description: "ID klienta"
+        tests:
+          - not_null
+      - name: month
+        description: "Měsíc (začátek měsíce)"
+        tests:
+          - not_null
+      - name: total_revenue
+        description: "Celkový příjem za měsíc"
+      - name: transaction_count
+        description: "Počet transakcí za měsíc"
