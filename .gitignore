@@ -10,6 +10,9 @@ package-lock.yml
 profiles.yml
 .env
 
+# Lokální development soubory
+developing/
+
 # Python
 *.pyc
 __pycache__/
