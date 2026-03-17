@@ -23,8 +23,6 @@ models:
     staging:
       +materialized: view
       +schema: crm_staging
-      +alias: "{{ this.identifier }}"
     marts:
       +materialized: table
       +schema: crm_mart
-      +alias: "{{ this.identifier }}"
